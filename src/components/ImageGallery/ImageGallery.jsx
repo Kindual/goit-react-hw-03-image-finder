@@ -3,15 +3,21 @@ import React, { Component } from 'react'
 import css from './ImageGallery.module.css'
 
 export default class ImageGallery extends Component {
+    openImage = (event) => {
+        if (event.target.tagName === 'IMG') {
+            const largeImgUrl = event.target.dataset.img;
+            this.props.openModal(largeImgUrl);
+        };
+
+    }
+
     render() {
         const {gallery} = this.props;
         return (
-            <ul className={css.gallery}>
-                {gallery.map(({id, webformatURL}) => 
-                    <ImageGalleryItem img={webformatURL} key={id}></ImageGalleryItem>
+            <ul className={css.gallery} onClick={(e) => this.openImage(e)}>
+                {gallery.map(({id, webformatURL, largeImageURL}) => 
+                    <ImageGalleryItem img={webformatURL} key={id} largeImg={largeImageURL}></ImageGalleryItem>
                 )}
-                
-                
             </ul>
         )
     }

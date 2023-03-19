@@ -3,6 +3,9 @@ import axios from 'axios';
 import css from '../styles.module.css'
 import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
+import Modal from './Modal/Modal';
+import Button from './Button.jsx/Button';
+import Loader from './Loader/Loader';
 
 export default class App extends Component {
   state = {
@@ -10,6 +13,8 @@ export default class App extends Component {
     name: '',
     page: 1,
     loadBtn: false,
+    visibleLoader: false,
+    largeImg: '',
   };
 
   componentDidMount() {
@@ -25,8 +30,8 @@ export default class App extends Component {
 
   fetchImg = async (name, page = 1) => {
     try {
-      this.setState( state => ({
-        ...state, loadBtn: false,
+      this.setState(state => ({
+        ...state, loadBtn: false, visibleLoader: true,
       }))
       const key = '33172087-140883ac21b857d399fef061e';
       const url = `https://pixabay.com/api/?q=${name}&page=${page}&key=${key}&image_type=photo&orientation=horizontal&per_page=12`;
@@ -38,7 +43,7 @@ export default class App extends Component {
 
       this.setState((state) =>
       ({
-        ...state,
+        ...state, visibleLoader: false, totalHits: response.data.totalHits,
         gallery: page === 1 ? galleryArr : [...state.gallery, ...galleryArr], loadBtn: true,
       }))
     }
@@ -50,16 +55,19 @@ export default class App extends Component {
   updateName = (name) => {
     this.setState((state) => ({
       ...state, name, page: 1,
-    })
-    )
+    }))
   }
 
   updatePage = () => {
     this.setState((state) => ({
       ...state, page: state.page + 1
-    })
-    )
+    }))
+  }
 
+  openModal = (img = '') => {
+    this.setState((state) => ({
+      ...state, largeImg: img,
+    }))
   }
 
   render() {
@@ -68,15 +76,18 @@ export default class App extends Component {
       <>
         <Searchbar updateName={this.updateName}></Searchbar>
 
-        <ImageGallery gallery={gallery}></ImageGallery>
+        {(this.state.page === 1 && this.state.visibleLoader) || <ImageGallery gallery={gallery} openModal={this.openModal}></ImageGallery>}
 
-        <button type='button' disabled={!this.state.loadBtn} onClick={this.updatePage}>Load More</button>
+        <Loader visibleLoader={this.state.visibleLoader}></Loader>
 
-        <div className={css.overlay}>
-          <div className={css.modal}>
-            <img src="" alt="" />
-          </div>
-        </div>
+        {(this.state.loadBtn && this.state.totalHits !== 0 && this.state.page !== Math.ceil(this.state.totalHits / 12) ) &&
+          < Button onClick={this.updatePage} ></Button>
+        }
+
+        {
+          (this.state.largeImg ) &&
+          <Modal largeImg={this.state.largeImg} openModal={this.openModal} ></Modal>
+        }
       </>
     )
   }

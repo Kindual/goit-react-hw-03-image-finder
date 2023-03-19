@@ -3,10 +3,10 @@ import css from './ImageGalleryItem.module.css'
 
 export default class ImageGalleryItem extends Component {
     render() {
-        const {img} = this.props;
+        const {img, largeImg} = this.props;
         return (
             <li className={css.galleryItem}>
-                <img src={img} alt="" />
+                <img src={img} alt="" data-img={largeImg} className={css.ImageGalleryItemImage}/>
             </li>
         )
     }
