@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import css from './ImageGalleryItem.module.css'
+import { PropTypes } from 'prop-types'
+
 
 export default class ImageGalleryItem extends Component {
     render() {
@@ -10,4 +12,9 @@ export default class ImageGalleryItem extends Component {
             </li>
         )
     }
+}
+
+ImageGalleryItem.propTypes = {
+    img: PropTypes.string.isRequired,
+    largeImg: PropTypes.string.isRequired,
 }

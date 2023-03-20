@@ -1,6 +1,8 @@
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem'
 import React, { Component } from 'react'
 import css from './ImageGallery.module.css'
+import { PropTypes } from 'prop-types'
+
 
 export default class ImageGallery extends Component {
     openImage = (event) => {
@@ -13,6 +15,7 @@ export default class ImageGallery extends Component {
 
     render() {
         const {gallery} = this.props;
+        
         return (
             <ul className={css.gallery} onClick={(e) => this.openImage(e)}>
                 {gallery.map(({id, webformatURL, largeImageURL}) => 
@@ -21,4 +24,8 @@ export default class ImageGallery extends Component {
             </ul>
         )
     }
+}
+
+ImageGallery.propTypes = {
+    gallery: PropTypes.array.isRequired,
 }

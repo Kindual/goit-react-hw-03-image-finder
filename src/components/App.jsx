@@ -70,22 +70,22 @@ export default class App extends Component {
   }
 
   render() {
-    const { gallery } = this.state;
+    const { gallery, page, visibleLoader, totalHits, largeImg, loadBtn } = this.state;
     return (
       <>
         <Searchbar updateName={this.updateName}></Searchbar>
 
-        {(this.state.page === 1 && this.state.visibleLoader) || <ImageGallery gallery={gallery} openModal={this.openModal}></ImageGallery>}
+        {(page === 1 && visibleLoader) || <ImageGallery gallery={gallery} openModal={this.openModal}></ImageGallery>}
 
-        <Loader visibleLoader={this.state.visibleLoader}></Loader>
+        <Loader visibleLoader={visibleLoader}></Loader>
 
-        {(this.state.loadBtn && this.state.totalHits !== 0 && this.state.page !== Math.ceil(this.state.totalHits / 12) ) &&
+        {(loadBtn && totalHits !== 0 && page !== Math.ceil(totalHits / 12) ) &&
           < Button onClick={this.updatePage} ></Button>
         }
 
         {
-          (this.state.largeImg ) &&
-          <Modal largeImg={this.state.largeImg} openModal={this.openModal} ></Modal>
+          (largeImg ) &&
+          <Modal largeImg={largeImg} openModal={this.openModal} ></Modal>
         }
       </>
     )
