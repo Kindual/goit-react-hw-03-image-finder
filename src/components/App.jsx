@@ -79,14 +79,10 @@ export default class App extends Component {
 
         <Loader visibleLoader={visibleLoader}></Loader>
 
-        {(loadBtn && totalHits !== 0 && page !== Math.ceil(totalHits / 12) ) &&
-          < Button onClick={this.updatePage} ></Button>
-        }
+        {(loadBtn && totalHits !== 0 && page !== Math.ceil(totalHits / 12)) &&
+          < Button onClick={this.updatePage} ></Button>}
 
-        {
-          (largeImg ) &&
-          <Modal largeImg={largeImg} openModal={this.openModal} ></Modal>
-        }
+        {(largeImg) && <Modal largeImg={largeImg} openModal={this.openModal} ></Modal>}
       </>
     )
   }
